@@ -43,7 +43,7 @@ class PrivateUserError(Exception):
     """Raised if the profile is found to be private"""
 
 try:
-    import urlparse
+    import urllib.parse
 except ImportError:
     import urllib.parse as urlparse
 
@@ -92,7 +92,7 @@ class InstaRaider(object):
             self.webdriver.close()
 
     def get_url(self, path):
-        return urlparse.urljoin('https://instagram.com', path)
+        return urllib.parse.urljoin('https://instagram.com', path)
 
     def set_num_posts(self, num_to_download=None):
         self.num_posts = int(self.get_posts_count(self.profile_url) or 0)
@@ -105,7 +105,7 @@ class InstaRaider(object):
 
     def log(self, *strings, **kwargs):
         level = kwargs.pop('level', logging.INFO)
-        self.logger.log(level, u' '.join(str(s) for s in strings))
+        self.logger.log(level, ' '.join(str(s) for s in strings))
 
     def setup_webdriver(self):
         self.profile = webdriver.FirefoxProfile()
@@ -426,7 +426,7 @@ def gen_dict_extract(key, var):
     author: hexerei software
     """
     if hasattr(var,'iteritems'):
-        for k, v in var.iteritems():
+        for k, v in var.items():
             if k == key:
                 yield v
             if isinstance(v, dict):
